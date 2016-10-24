@@ -27,6 +27,13 @@ module S3
       { location: response.location }
     end
 
+    def list_bucket_acls(name)
+      response = @client.get_bucket_acl(bucket: name)
+      response.grants
+    end
+
+    private
+
     def bucket_location_for_region(region)
       bucket_location = { 'us-east-1' => nil,
                           'us-east-2' => nil,

@@ -11,6 +11,12 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
       - allow
+    options:
+      region:
+        type: string
+        required: false
+        description: S3 location to connect to (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-central-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, ap-south-1, sa-east-1)
+        short_flag: r
   bucket-list:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
@@ -36,10 +42,6 @@ commands:
         required: false
         description: S3 location in which to create the bucket (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-central-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, ap-south-1, sa-east-1)
         short_flag: r
-  bucket-info:
-    executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
-    rules:
-      - allow
   bucket-destroy:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
@@ -72,4 +74,11 @@ templates:
     body: |
       ~each var=$results as=bucket~
       Created bucket at location ~$bucket.location~
+      ~end~
+  bucket_acl:
+    body: |
+      | Permission | Grantee |
+      | ---- | ------------- |
+      ~each var=$results as=acl~
+      | ~$acl.permission~ | ~$acl.grantee.display_name~ |
       ~end~
