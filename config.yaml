@@ -75,6 +75,11 @@ templates:
       ~each var=$results as=bucket~
       Created bucket at location ~$bucket.location~
       ~end~
+  bucket_destroy:
+    body: |
+      ~each var=$results as=bucket~
+      Destroyed bucket ~$bucket.name~
+      ~end~
   bucket_acl:
     body: |
       | Permission | Grantee |

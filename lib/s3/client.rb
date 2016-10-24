@@ -27,6 +27,13 @@ module S3
       { location: response.location }
     end
 
+    def destroy_buckets(names)
+      names.map do |name|
+        client.delete_bucket(bucket: name)
+        { name: name }
+      end
+    end
+
     def list_bucket_acls(name)
       response = @client.get_bucket_acl(bucket: name)
       response.grants
