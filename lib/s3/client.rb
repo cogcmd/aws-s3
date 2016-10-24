@@ -39,6 +39,12 @@ module S3
       response.grants
     end
 
+    # TODO: Handle listing over continuation (pagination)
+    def list_files(bucket)
+      response = @client.list_objects_v2(bucket: bucket)
+      response.contents
+    end
+
     private
 
     def bucket_location_for_region(region)

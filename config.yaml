@@ -87,3 +87,10 @@ templates:
       ~each var=$results as=acl~
       | ~$acl.permission~ | ~$acl.grantee.display_name~ |
       ~end~
+  file_list:
+    body: |
+      | Key | Last Modified | Size |
+      | --- | ------------- | ---- |
+      ~each var=$results as=file~
+      | ~$file.key~ | ~$file.last_modified~ | ~$file.size~ |
+      ~end~
