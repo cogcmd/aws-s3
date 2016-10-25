@@ -10,7 +10,7 @@ commands:
   bucket-acl:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
-      - allow
+      - "must have s3:read"
     options:
       region:
         type: string
@@ -20,7 +20,7 @@ commands:
   bucket-list:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
-      - allow
+      - "must have s3:read"
     options:
       region:
         type: string
@@ -30,7 +30,7 @@ commands:
   bucket-create:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
-      - allow
+      - "must have s3:write"
     options:
       acl:
         type: string
@@ -45,23 +45,27 @@ commands:
   bucket-destroy:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
-      - allow
+      - "must have s3:admin"
   file-list:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
-      - allow
+      - "must have s3:read"
   file-create:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
-      - allow
+      - "must have s3:write"
   file-info:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
-      - allow
+      - "must have s3:read"
   file-destroy:
     executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
     rules:
-      - allow
+      - "must have s3:admin"
+permissions:
+  - s3:read
+  - s3:write
+  - s3:admin
 templates:
   bucket_list:
     body: |
