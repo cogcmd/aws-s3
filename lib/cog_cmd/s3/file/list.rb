@@ -7,7 +7,12 @@ module CogCmd::S3::File
       require_valid_region!
       require_bucket!
 
+      # TODO: Apply pattern as prefix if applicable
       files = client.list_files(bucket)
+
+      if pattern
+        files.select! { |f| matches_pattern?(f.key) }
+      end
 
       response.template = 'file_list'
       response.content = files.map(&:to_h)
@@ -20,7 +25,15 @@ module CogCmd::S3::File
     end
 
     def bucket
-      request.args.first
+      request.args[0]
+    end
+
+    def matches_pattern?(string)
+      Regexp.new(pattern).match(string)
+    end
+
+    def pattern
+      request.args[1]
     end
   end
 end
