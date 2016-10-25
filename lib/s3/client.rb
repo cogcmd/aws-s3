@@ -45,6 +45,19 @@ module S3
       response.contents
     end
 
+    def create_file(bucket, key, body, params = {})
+      params.merge!(bucket: bucket, key: key, body: to_json_or_string(body))
+      @client.put_object(params)
+      params
+    end
+
+    def info_file(bucket, key, params = {})
+      params.merge!(bucket: bucket, key: key)
+      response = @client.get_object(params)
+      body = response.body.read
+      { bucket: bucket, key: key, body: body }
+    end
+
     private
 
     def bucket_location_for_region(region)
@@ -52,6 +65,15 @@ module S3
                           'us-east-2' => nil,
                           'eu-west-1' => 'EU' }[region]
       bucket_location || region
+    end
+
+    def to_json_or_string(body)
+      case body
+      when Enumerable
+        body.to_json
+      else
+        body.to_s
+      end
     end
   end
 end

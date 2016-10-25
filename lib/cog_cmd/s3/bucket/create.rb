@@ -10,7 +10,7 @@ module CogCmd::S3::Bucket
       bucket = client.create_bucket(acl: acl, name: name, region: region)
 
       response.template = 'bucket_create'
-      response.content = [bucket]
+      response.content = [bucket.to_h]
     end
 
     def require_name!

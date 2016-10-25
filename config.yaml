@@ -94,3 +94,16 @@ templates:
       ~each var=$results as=file~
       | ~$file.key~ | ~$file.last_modified~ | ~$file.size~ |
       ~end~
+  file_create:
+    body: |
+      ~each var=$results as=file~
+      Created file ~$file.key~ in bucket ~$file.bucket~
+      ~end~
+  file_info:
+    body: |
+      ~each var=$results as=file~
+      Contents of file ~$file.key~ in bucket ~$file.bucket~
+      ```
+      ~$file.body~
+      ```
+      ~end~
