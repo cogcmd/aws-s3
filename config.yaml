@@ -107,3 +107,8 @@ templates:
       ~$file.body~
       ```
       ~end~
+  file_destroy:
+    body: |
+      ~each var=$results as=file~
+      Destroyed file ~$file.key~ in bucket ~$file.bucket~
+      ~end~

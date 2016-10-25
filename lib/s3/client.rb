@@ -58,6 +58,12 @@ module S3
       { bucket: bucket, key: key, body: body }
     end
 
+    def destroy_file(bucket, key, params = {})
+      params.merge!(bucket: bucket, key: key)
+      @client.delete_object(params)
+      params
+    end
+
     private
 
     def bucket_location_for_region(region)
