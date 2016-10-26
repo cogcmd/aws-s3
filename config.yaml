@@ -7,11 +7,34 @@ docker:
   image: cogcmd/aws-s3
   tag: 0.1.0
 description: Manage S3 buckets and files
+long_description: >
+  This bundle provides commands for creating, inspecting, and controlling S3
+  buckets and objects (referred to as files in this bundle) on AWS. To
+  communicate with the AWS API we use the aws-sdk library written in Ruby.
+  Permissions are used to control which users are authorized to run each
+  command. Listing and reading buckets and files requires the s3:read
+  permission. Modifying the state or other values of buckets and files requires
+  the s3:write permission. And, deleting buckets and files requires the
+  s3:admin permission.
 homepage: https://github.com/cogcmd/aws-s3
 author: Patrick Van Stee <patrick@operable.io>
+config:
+  notes: >
+    When creating the access key for use with the following environment
+    variables, make sure the IAM user that owns the key has the
+    AmazonS3FullAccess policy.
+  env: 
+    - var: AWS_ACCESS_KEY_ID
+      description: Requried ID of the access key used to authenticate with the AWS API
+    - var: AWS_SECRET_ACCESS_KEY
+      description: Required secret of the access key used to authenticate with the AWS API
+    - var: AWS_REGION
+      description: Optional region used for all commands unless one is provided via the -r,--region flag
 commands:
   bucket-acl:
     executable: /home/bundle/cog-command
+    description: Lists ACLs of a bucket
+    arguments: "<bucket>"
     rules:
       - "must have s3:read"
     options:
@@ -22,6 +45,14 @@ commands:
         short_flag: r
   bucket-list:
     executable: /home/bundle/cog-command
+    description: Lists buckets
+    long_description: >
+      If you have a large number of buckets or want to filter down to only a
+      few in a pipeline, you can use the optional pattern argument. The pattern
+      can be any valid ruby regular expression and is applied to the bucket
+      name. Only buckets with matching names will be returned. If a pattern is
+      not provided all buckets are returned.
+    arguments: "[pattern]"
     rules:
       - "must have s3:read"
     options:
@@ -32,6 +63,8 @@ commands:
         short_flag: r
   bucket-create:
     executable: /home/bundle/cog-command
+    description: Creates a bucket
+    arguments: "<name>"
     rules:
       - "must have s3:write"
     options:
@@ -47,24 +80,70 @@ commands:
         short_flag: r
   bucket-destroy:
     executable: /home/bundle/cog-command
+    description: Destroys buckets
+    arguments: "<name> [<name> ...]"
     rules:
       - "must have s3:admin"
+    options:
+      region:
+        type: string
+        required: false
+        description: S3 location to connect to (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-central-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, ap-south-1, sa-east-1)
+        short_flag: r
   file-list:
     executable: /home/bundle/cog-command
+    description: Lists files in a bucket
+    long_description: >
+      If you have a large number of files or want to filter down to only a few
+      in a pipeline, you can use the optional pattern argument. The pattern can
+      be any valid ruby regular expression and is applied to the file key. Only
+      files with matching keys will be returned. If a pattern is not provided
+      all files in the bucket are returned.
+    arguments: "<bucket> [pattern]"
     rules:
       - "must have s3:read"
+    options:
+      region:
+        type: string
+        required: false
+        description: S3 location to connect to (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-central-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, ap-south-1, sa-east-1)
+        short_flag: r
   file-create:
     executable: /home/bundle/cog-command
+    description: Creates a file
+    arguments: "<bucket> <key> <body>"
     rules:
       - "must have s3:write"
+    options:
+      region:
+        type: string
+        required: false
+        description: S3 location to connect to (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-central-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, ap-south-1, sa-east-1)
+        short_flag: r
   file-info:
     executable: /home/bundle/cog-command
+    description: Reads a file
+    arguments: "<bucket> <key>"
     rules:
       - "must have s3:read"
+    options:
+      region:
+        type: string
+        required: false
+        description: S3 location to connect to (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-central-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, ap-south-1, sa-east-1)
+        short_flag: r
   file-destroy:
     executable: /home/bundle/cog-command
+    description: Destroys a file
+    arguments: "<bucket> <key>"
     rules:
       - "must have s3:admin"
+    options:
+      region:
+        type: string
+        required: false
+        description: S3 location to connect to (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-central-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, ap-south-1, sa-east-1)
+        short_flag: r
 permissions:
   - s3:read
   - s3:write
