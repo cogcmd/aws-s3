@@ -3,12 +3,15 @@ cog_bundle_version: 4
 
 name: s3
 version: 0.1.0
+docker:
+  image: cogcmd/aws-s3
+  tag: 0.1.0
 description: Manage S3 buckets and files
 homepage: https://github.com/cogcmd/aws-s3
 author: Patrick Van Stee <patrick@operable.io>
 commands:
   bucket-acl:
-    executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
+    executable: /home/bundle/cog-command
     rules:
       - "must have s3:read"
     options:
@@ -18,7 +21,7 @@ commands:
         description: S3 location to connect to (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-central-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, ap-south-1, sa-east-1)
         short_flag: r
   bucket-list:
-    executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
+    executable: /home/bundle/cog-command
     rules:
       - "must have s3:read"
     options:
@@ -28,7 +31,7 @@ commands:
         description: S3 location to connect to (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-central-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, ap-south-1, sa-east-1)
         short_flag: r
   bucket-create:
-    executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
+    executable: /home/bundle/cog-command
     rules:
       - "must have s3:write"
     options:
@@ -43,23 +46,23 @@ commands:
         description: S3 location in which to create the bucket (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-central-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, ap-south-1, sa-east-1)
         short_flag: r
   bucket-destroy:
-    executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
+    executable: /home/bundle/cog-command
     rules:
       - "must have s3:admin"
   file-list:
-    executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
+    executable: /home/bundle/cog-command
     rules:
       - "must have s3:read"
   file-create:
-    executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
+    executable: /home/bundle/cog-command
     rules:
       - "must have s3:write"
   file-info:
-    executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
+    executable: /home/bundle/cog-command
     rules:
       - "must have s3:read"
   file-destroy:
-    executable: /Users/vanstee/Code/cogcmd/aws-s3/cog-command
+    executable: /home/bundle/cog-command
     rules:
       - "must have s3:admin"
 permissions:
